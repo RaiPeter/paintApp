@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+</head>
+<body>
+    hello
+    <canvas id="myCanvas" width="600" height="500" style="border:1px solid #000000;"></canvas>
+    <button id="reset">Reset</button>
+    <script>
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        
+        let mousePos ={
+            x:0,
+            y:0
+        }
+
+        document.addEventListener('mousemove', draw);
+        document.addEventListener('mousedown', mousePosition);
+        document.addEventListener('mouseenter',mousePosition);
+
+        function mousePosition(e) {
+            mousePos.x = e.clientX-40;
+            mousePos.y = e.clientY;            
+        }
+
+        function randomColor( )
+  {  
+    var r = Math.round(Math.random( )*256);
+    var g = Math.round(Math.random( )*256);
+    var b = Math.round(Math.random( )*256);
+
+    return 'rgb( ' + r + ',' + g + ',' + b + ')';
+
+  }
+
+        function draw(e){
+            if(e.buttons !== 1) return;
+
+            // ctx.beginPath();
+            // ctx.lineCap='round';
+            // ctx.lineWidth=8;
+            // ctx.moveTo(mousePos.x,mousePos.y);
+            // mousePosition(e);
+            // ctx.lineTo(mousePos.x,mousePos.y);
+            // ctx.stroke();
+
+            ctx.beginPath();
+    ctx.moveTo(mousePos.x,mousePos.y);
+    // mousePosition(e);
+    ctx.lineTo(mousePos.x+100, mousePos.y+50);
+    ctx.lineTo(mousePos.x+100, mousePos.y-50);
+    ctx.fillStyle = randomColor( );
+    ctx.fill();
+
+    // ctx.beginPath();
+    // ctx.rect(position.x, position.y, dragStartPoint.x - position.x, dragStartPoint.y - position.y);
+    // ctx.fill();
+        }
+        
+        let reset = document.getElementById('reset');
+        reset.addEventListener("click",function () {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        })
+        // ctx.moveTo(0, 0);
+        // ctx.lineTo(200, 100);
+        // ctx.stroke();
+        </script>
+</body>
+</html>
