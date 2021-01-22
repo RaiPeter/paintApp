@@ -4,13 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-   
+   <style>
+       body{
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           flex-direction: column;
+       }
+       canvas{
+           
+           box-shadow: 5px 5px 15px  black;
+       }
+       .palette{
+           padding: 15px 0px;
+           /* background-color: red; */
+           width: 900px;
+           display: flex;
+           justify-content: space-between;
+       }
+       .palette > button{
+           padding: 10px 10px;
+           border: 0.5px solid ;
+           border-radius: 50%;
+           outline: none;
+
+       }
+       #reset{
+           padding: 20px 55px;
+           border-radius: 10px;
+           border: black 1px solid;
+           outline: none;
+       }
+   </style>
 </head>
 <body>
-    hello
-    <canvas id="myCanvas" width="600" height="500" style="border:1px solid #000000;"></canvas>
+    <canvas id="myCanvas" width="900" height="500"></canvas>
+    <div class="palette">
+        <button class="colourOption" style="background-color: red;">Red</button>
+        <button class="colourOption" style="background-color: blue;" >Blue</button>
+        <button class="colourOption" style="background-color: green;">Green</button>
+        <button class="colourOption" style="background-color: yellow;">Yellow</button>
+        <button class="colourOption" style="background-color: grey;">Grey</button>
+        <button class="colourOption" style="background-color: orange;">Orange</button>
+        <button class="colourOption" style="background-color: black; color: wheat;">Black</button>
+        <button class="colourOption" style="background-color: white;">White</button>
+        <button class="colourOption" style="background-color: purple;">Purple</button>
+        <button class="colourOption" style="background-color: brown;">Brown</button>
+        <button class="colourOption" style="background-color: pink;">Pink</button>
+        <button class="colourOption">Random</button>
+    </div>
     <button id="reset">Reset</button>
-    <script>
+        <script>
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
         
@@ -19,43 +63,99 @@
             y:0
         }
 
+        // colour choose
+        let colourOption = document.getElementsByClassName('colourOption');
+        console.log(colourOption);
+        for (let index = 0; index < colourOption.length; index++) {
+colourOption[index].addEventListener('click',function () {
+    console.log('clicked');
+    if(colourOption[index].innerText == "Red"){
+                ctx.strokeStyle = 'Red';
+            }else if(colourOption[index].innerText == "Blue"){
+                ctx.strokeStyle = 'Blue';
+            }
+            else if(colourOption[index].innerText == "Green"){
+                ctx.strokeStyle = 'Green';
+            }
+            else if(colourOption[index].innerText == "Yellow"){
+                ctx.strokeStyle = 'Yellow';
+            }
+            else if(colourOption[index].innerText == "Grey"){
+                ctx.strokeStyle = 'Grey';
+            }
+            else if(colourOption[index].innerText == "Orange"){
+                ctx.strokeStyle = 'Orange';
+            }
+            else if(colourOption[index].innerText == "Black"){
+                ctx.strokeStyle = 'Black';
+            }
+            else if(colourOption[index].innerText == "White"){
+                ctx.strokeStyle = 'White';
+            }
+            else if(colourOption[index].innerText == "Purple"){
+                ctx.strokeStyle = 'Purple';
+            }
+            else if(colourOption[index].innerText == "Brown"){
+                ctx.strokeStyle = 'Brown';
+            }
+            else if(colourOption[index].innerText == "Pink"){
+                ctx.strokeStyle = 'Pink';
+            }
+            else if(colourOption[index].innerText == "Random"){
+                ctx.strokeStyle = randomColor();
+            }
+})            
+            
+        }
+       
+
         document.addEventListener('mousemove', draw);
         document.addEventListener('mousedown', mousePosition);
         document.addEventListener('mouseenter',mousePosition);
 
         function mousePosition(e) {
-            mousePos.x = e.clientX-40;
-            mousePos.y = e.clientY;            
+            var rect = canvas.getBoundingClientRect();
+            mousePos.x = e.clientX - rect.left;
+            mousePos.y = e.clientY - rect.top;            
         }
 
-        function randomColor( )
-  {  
-    var r = Math.round(Math.random( )*256);
-    var g = Math.round(Math.random( )*256);
-    var b = Math.round(Math.random( )*256);
+    function randomColor( )
+        {  
+        var r = Math.round(Math.random( )*256);
+        var g = Math.round(Math.random( )*256);
+        var b = Math.round(Math.random( )*256);
+            return 'rgb( ' + r + ',' + g + ',' + b + ')';
+        }
+    function chooseColour(colourOption) {
+        console.log("colouroption");
+        if(colourOption=='Red'){
+            return 'Red';
+        }
+        else if(colourOption == 'Blue'){
+            return 'Blue';
+        }
+    }    
 
-    return 'rgb( ' + r + ',' + g + ',' + b + ')';
-
-  }
-
-        function draw(e){
+        function draw(e,colourOption){
             if(e.buttons !== 1) return;
 
-            // ctx.beginPath();
-            // ctx.lineCap='round';
-            // ctx.lineWidth=8;
-            // ctx.moveTo(mousePos.x,mousePos.y);
-            // mousePosition(e);
-            // ctx.lineTo(mousePos.x,mousePos.y);
-            // ctx.stroke();
-
             ctx.beginPath();
-    ctx.moveTo(mousePos.x,mousePos.y);
-    // mousePosition(e);
-    ctx.lineTo(mousePos.x+100, mousePos.y+50);
-    ctx.lineTo(mousePos.x+100, mousePos.y-50);
-    ctx.fillStyle = randomColor( );
-    ctx.fill();
+            ctx.lineCap='round';
+            ctx.lineWidth=8;
+            ctx.moveTo(mousePos.x,mousePos.y);
+            mousePosition(e);
+            ctx.lineTo(mousePos.x,mousePos.y);
+            ctx.strokeStyle = chooseColour(colourOption);
+            ctx.stroke();
+    
+    // make traingle
+    //         ctx.beginPath();
+    // ctx.moveTo(mousePos.x,mousePos.y);
+    // ..? mousePosition(e);
+    // ctx.lineTo(mousePos.x+100, mousePos.y+50);
+    // ctx.lineTo(mousePos.x+100, mousePos.y-50);
+    // ctx.fillStyle = randomColor( );
+    // ctx.fill();
 
     // ctx.beginPath();
     // ctx.rect(position.x, position.y, dragStartPoint.x - position.x, dragStartPoint.y - position.y);
